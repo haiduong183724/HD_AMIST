@@ -32,7 +32,7 @@
       </div>
       <div class="table-content">
         <div class="table-header">
-            <a href="">
+            <a href="#">
               Thực hiện hàng loạt
                <i class="material-icons">
                   arrow_drop_down
@@ -61,9 +61,13 @@
           <thead>
             <tr>
               <th class="table-outline left"></th>
-            <th class = "static"><input type="checkbox"></th>
+            <th class = "static">
+              <span>
+                <input type="checkbox">
+              </span>
+            </th>
             <div class="head-title">
-            <th class="small-td">MÃ NHÂN VIÊN</th>
+            <th class="small-td top-static">MÃ NHÂN VIÊN</th>
             <th class="big-td">TÊN NHÂN VIÊN</th>
             <th class="small-td">GIỚI TÍNH</th>
             <th class="small-td">NGÀY SINH</th>
@@ -74,7 +78,9 @@
             <th class="big-td">TÊN NGÂN HÀNG</th>
             <th class="big-td">CHI NHÁNH TK NGÂN HÀNG</th>
             </div>
-            <th class="static-right">CHỨC NĂNG</th>
+            <th class="static-right">
+              <span>CHỨC NĂNG</span>   
+            </th>
             <th class="table-outline right"></th>
             </tr>
             
@@ -115,7 +121,7 @@
 </template>
 
 <script>
-import "../assets/style/content.css";
+
 import EventBus from "../event-bus";
 export default {
   data(){
@@ -410,6 +416,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@import "../assets/style/content.css";
 </style>

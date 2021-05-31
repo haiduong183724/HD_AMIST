@@ -72,9 +72,10 @@
     justify-content: space-between;
     height: 36px;
     margin-bottom: 8px;
-    padding: 16px;
+    padding:16px 16px 10px 16px;
     position: sticky; 
     left: 0;
+    box-sizing: unset !important;
 }
 .table-header a{
     color: gray;
@@ -159,12 +160,17 @@
     z-index: 100;
     background-color: #f4f5f6;
 }
+.table-content thead .top-static{
+    position: sticky;
+    top:0 !important;
+}
 .table-content .static-right{
     position: sticky;
     right:45px ;
     border-right:none !important;
     border-left:1px solid rgb(199, 199, 199) ;
-    width: 100px;
+    width: 120px;
+    text-align: center;
     z-index: 25;
     background: #fff;
 }
@@ -172,7 +178,7 @@
 .table-content .table-outline{
     min-width: 16px;
     max-width: 16px;
-    background: #fff;
+    background: #fff !important;
     position: sticky;
     border: 0;
     z-index: 25 !important;
@@ -193,6 +199,7 @@
     height: 40px;
     z-index: 1;
     box-sizing: border-box;
+    background-color: white;
 }
 .table-content .table_cell{
     height: calc(100% - 13) !important;
@@ -202,6 +209,7 @@
 .table-content .head-title{
     position: sticky;
     top: 0;
+    height: 34.6px;
 }
 .main-footer{
     position: sticky;
@@ -214,6 +222,6 @@
     justify-content: space-between;
     align-items: center;
 }
-tr:hover td{
+.table-content tr:hover td{
     background-color:#f3f8f8 ;
 }

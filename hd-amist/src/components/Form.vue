@@ -32,13 +32,13 @@
                                 <div class="title-input">
                                     Mã <p> *</p>
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" name="" id="" v-model="employee.EmployeeCode">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
                                     Tên <p> *</p>
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" name="" id="" v-model="employee.EmployeeName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -46,7 +46,7 @@
                                 <div class="title-input">
                                     Đơn vị<p>*</p>
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" name="" id="" v-model="employee.CompanyName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -54,7 +54,7 @@
                                 <div class="title-input">
                                     Chức danh <p></p>
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" name="" id="" v-model="employee.Position">
                             </div>
                         </div>
                     </div>
@@ -64,13 +64,30 @@
                                 <div class="title-input">
                                     Ngày sinh
                                 </div>
-                                <input type="text" name="" id="">
+                                <div class="date_input">
+                                    <input type="text" name="" id="" v-model="employee.DateOfBirth">
+                                    <span class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
+                                        calendar_today
+                                    </span>
+
+                                </div>
+                                <div class="date__picker"  :class="{'show':isDateOfBirth}">
+                                    <v-date-picker
+                                        v-model="employee.DateOfBirth"
+                                        no-title
+                                        scrollable
+                                    >
+                                    <div class="date_picker_footer">
+                                        <a href="#"> Hôm nay</a>
+                                    </div>
+                                    </v-date-picker>
+                                </div>
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
                                     Giới tính
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" name="" id="" v-model="employee.Gender">
                             </div>
                         </div>
                         <div class="input-row d-flex">
@@ -188,9 +205,10 @@ import EventBus from "../event-bus";
 export default {
 data(){
     return{
-        employee:null,
-        isShow:true,
+        employee:[],
+        isShow:false,
         isDate:false,
+        isDateOfBirth:false,
     }
 },
 mounted(){
