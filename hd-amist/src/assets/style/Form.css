@@ -1,0 +1,198 @@
+.form-wraper .form-content{
+    width:900px;
+    height:625px;
+    background-color: white;
+}
+.form-content .form-header{
+    height: 76px;
+    display: flex;
+}
+
+.form-header .checkbox-label{
+    padding: 0 10px;
+    align-items: center;
+    display: flex;
+}
+.form-header .left-header{
+    padding: 20px;
+    flex: 1;
+}
+.form-header .right-header{
+    width: 76px;
+    padding: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.form-header .checkbox-label input[type = "checkbox"]{
+    height: 18px;
+    width: 18px;
+    margin-right: 10px;
+    color: green;
+}
+.pop-up-close{
+    display: flex;
+    flex-direction: row-reverse;
+    float: right;
+}
+.pop-up-close i{
+    font-size: 24px;
+    color: rgb(17, 17, 17);
+    cursor: pointer;
+}
+.pop-up-close i:first-child{
+    margin-left: 5px;
+}
+.form-content .content-wraper{
+    width: 100%;
+    height: calc(100% - 73px);
+    padding: 0 32px 20px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.form-content .head-content{
+    display: flex;
+    padding-bottom: 12p;
+}
+.form-content .head-content-left{
+    width: 50%;
+    box-sizing: border-box;
+    padding-right: 10px;
+}
+.form-content .head-content-right{
+    width: 50%;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+
+.form-wraper input[type = "text"]{
+    font-size: 13px;
+    height: 32px;
+    color: inherit;
+    position: relative;
+    padding: 6px 10px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    box-sizing: border-box;
+    width: 100%;
+    margin:5px 0;
+}
+.date_input{
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    margin-top: 10px;
+    height: 32px;
+    padding: 5px;
+}
+.date_input input{
+    border: none !important;
+    outline: 0;
+    padding: 0 !important;;
+    margin: 0 !important;
+}
+.form-content  .max_length{
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.form-content .nor_length{
+    width: 60%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.form-content  .short_length{
+    width: 40%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.form-content .small_length{
+    width: 25%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.form-content .input-row{
+    width: 100%;
+    box-sizing: border-box;
+}
+.head-content .title-input{
+    display: flex;
+    margin-bottom: 5px;
+}
+.head-content .title-input p{
+    line-height: 18px;
+    color: red;
+    margin-left: 5px;
+}
+.bottom-content{
+    margin-top: 30px;
+}
+.form-footer{
+    margin: 5px;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid ;
+    height: max-content;
+    flex: 1;
+}
+.form-footer .btn{
+    height: 36px;
+    padding: 8px 20px;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: 0.2s;
+    margin:0 5px;
+}
+.form-footer .btn-white{
+    border: 1px solid #8d9096;
+    color: #111;
+    background-color: transparent;
+}
+.form-footer .btn-green{
+    background-color: #248b15;
+    color: #fff;
+    border: none;
+}
+.form-footer .btn-green:hover{
+    background:#35bf22
+}
+.form-footer .btn-white:hover{
+    background-color: #d2d3d6;
+}
+.form-footer .btn-text{
+    font-weight: 600;
+    position: relative;
+    color: inherit;
+    display: inline-block;
+    transition: all .25s ease;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 13px;
+}
+.form-footer .right-btn{
+    display: flex;
+}
+.form-wraper .date__picker{
+    z-index: 10000;
+    position: absolute;
+    display: none;
+}
+.date_input span{
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+.date_picker_footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 5px 0;
+    margin: 0 10px;
+    border-top:1px solid  #8d9096;
+}
+.date_picker_footer a{
+    text-decoration: none;
+    color: #248b15;
+}
