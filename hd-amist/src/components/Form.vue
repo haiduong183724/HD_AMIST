@@ -72,10 +72,11 @@
 
                                 </div>
                                 <div class="date__picker"  :class="{'show':isDateOfBirth}">
+                                    
                                     <v-date-picker
                                         v-model="employee.DateOfBirth"
                                         no-title
-                                        scrollable
+                                        @input="menu2 = false"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -209,6 +210,7 @@ data(){
         isShow:false,
         isDate:false,
         isDateOfBirth:false,
+        menu2: false,
     }
 },
 mounted(){

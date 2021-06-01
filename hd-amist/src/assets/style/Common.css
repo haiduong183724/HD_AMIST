@@ -63,3 +63,6 @@
 .show{
     display: flex !important;
 }
+.v-btn--active{
+    background-color: #393a3d;
+}
