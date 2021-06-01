@@ -11,7 +11,7 @@
                 </i>
               </a>
               <div class="add-btn">
-                <a href="#" v-on:click="open_form()">
+                <a href="#" v-on:click="add()">
                 Thêm
                 </a>
                 <a href="#">
@@ -45,7 +45,7 @@
                   search
                 </i>
               </div>
-              <i class="material-icons">
+              <i class="material-icons" v-on:click="reLoadData()">
                 refresh
               </i>
               <i>
@@ -86,22 +86,22 @@
             
           </thead>
           <tbody>
-            <tr v-for="(employee, index) in employees" :key="index">
+            <tr v-for="(employee, index) in employees" :key="employee.employeeCode" :id = "index" v-on:click="InitrowSelected(index)">
               <td class="table-outline left"></td>
-              <td class = "static"><input type="checkbox"></td>
+              <td class = "static" :class ="{'rowSelected': rowSelected == index}"><input type="checkbox" ></td>
               <div>
-                <td class="small-td">{{employee.employeeCode}}</td>
-                <td class="big-td">{{employee.employeeName}}</td>
-                <td class="small-td">{{employee.gender}}</td>
-                <td class="small-td">{{fomatDate(employee.dateOfBirth)}}</td>
-                <td class="small-td">{{employee.identifyId}}</td>
-                <td class="small-td">{{employee.position}}</td>
-                <td class="big-td">{{employee.companyName}}</td>
-                <td class="small-td">{{employee.bankAccount}}</td>
-                <td class="big-td">{{employee.bankName}}</td>
-                <td class="big-td">{{employee.bankBranch}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.employeeCode}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.employeeName}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.gender}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{fomatDate(employee.dateOfBirth)}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.identifyId}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.position}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.companyName}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankAccount}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankName}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankBranch}}</td>
               </div>
-              <td class="static-right">
+              <td class="static-right" :class ="{'rowSelected': rowSelected == index}"  v-on:click="edit(index)" >
                 <div>
                   Sửa
                 </div>
@@ -127,11 +127,27 @@ export default {
   data(){
     return{
       employees:[],
+      rowSelected:0,
     }
   }, 
   methods:{
-    open_form(){
-      EventBus.$emit('open_form', true);
+    edit(index){
+      let me = this, 
+      param = {
+        formMode :"Edit",
+        Employee : me.employees[index],
+      }
+      me.open_form(param);
+    },
+    add(){
+      let param = {
+        formMode:"Add",
+      }
+      this.open_form(param);
+    },
+    open_form(param)
+    {
+      EventBus.$emit('open_form', param);
     },
     fomatDate(datesrc){
       let date = new Date(datesrc),
@@ -139,13 +155,27 @@ export default {
         month = (date.getMonth() + 1).toString().padStart(2, '0'),
         day = date.getDate().toString().padStart(2, '0');
     return `${day}/${month}/${year}`;
+    },
+    InitrowSelected(index){
+      this.rowSelected = index;
+    },
+    async reLoadData(){
+      this.$emit('showloading');
+      await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
+      this.employees = response.data;
+      this.$emit('hideloading');
+    });
     }
   },
   mounted(){
     axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
-      console.log(response.data);
       this.employees = response.data;
     });
+    EventBus.$on('resetData', param =>{
+      if(param){
+        this.reLoadData();
+      }
+    })
   },
 }
 </script>

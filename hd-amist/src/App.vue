@@ -3,9 +3,12 @@
       <Sidebar/>
       <div class="main-content">
         <Header/>
-        <MainContent/>
+        <MainContent @showloading = "showloading" @hideloading = 'hideloading'/>
       </div>
       <Form/>
+      <div class="loading item-center" :class ="{'show':isLoad}">
+        <div class="loader"></div>
+      </div>
     </div>
 </template>
 <script>
@@ -18,6 +21,19 @@ export default {
   components:{
     Header, Sidebar, MainContent,Form,
   }, 
+  data(){
+    return {
+      isLoad: false,
+    }
+  },
+  methods:{
+    showloading(){
+      this.isLoad = true;
+    },
+    hideloading(){
+      this.isLoad = false;
+    }
+  }
 }
 </script>
 <style>

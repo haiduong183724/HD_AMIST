@@ -32,13 +32,13 @@
                                 <div class="title-input">
                                     Mã <p> *</p>
                                 </div>
-                                <input type="text"  v-model="employee.EmployeeCode">
+                                <input type="text"  v-model="employee.employeeCode">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
                                     Tên <p> *</p>
                                 </div>
-                                <input type="text"  v-model="employee.EmployeeName">
+                                <input type="text"  v-model="employee.employeeName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -46,7 +46,7 @@
                                 <div class="title-input">
                                     Đơn vị<p>*</p>
                                 </div>
-                                <input type="text"  v-model="employee.CompanyName">
+                                <input type="text"  v-model="employee.companyName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -54,7 +54,7 @@
                                 <div class="title-input">
                                     Chức danh <p></p>
                                 </div>
-                                <input type="text"  v-model="employee.Position">
+                                <input type="text"  v-model="employee.position">
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                                     Ngày sinh
                                 </div>
                                 <div class="date_input">
-                                    <input type="text"  v-model="employee.DateOfBirth">
+                                    <input type="text"  v-model="computedDateFormatted" readonly>
                                     <span class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
                                         calendar_today
                                     </span>
@@ -74,7 +74,7 @@
                                 <div class="date__picker"  :class="{'show':isDateOfBirth}" >
                                     
                                     <v-date-picker
-                                        v-model="employee.DateOfBirth"
+                                        v-model="employee.dateOfBirth"
                                         no-title
                                     >
                                     <div class="date_picker_footer">
@@ -87,7 +87,7 @@
                                 <div class="title-input">
                                     Giới tính
                                 </div>
-                                <input type="text"  v-model="employee.Gender">
+                                <input type="text"  v-model="employee.gender">
                             </div>
                         </div>
                         <div class="input-row d-flex">
@@ -95,14 +95,14 @@
                                 <div class="title-input">
                                     Số CMND
                                 </div>
-                                <input type="text" >
+                                <input type="text" v-model="employee.identifyId" >
                             </div>
                             <div class="short_length">
                                 <div class="title-input">
                                     Ngày cấp
                                 </div>
                                 <div class="date_input" >
-                                    <input type="text" v-model="employee.DateOfIdentify">
+                                    <input type="text" v-model="employee.dateOfIdentify" readonly>
                                     <span class="material-icons" v-on:click ="function(){isDate = !isDate }">
                                         calendar_today
                                     </span>
@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="date__picker"  :class="{'show':isDate}" >
                                     <v-date-picker
-                                        v-model="employee.DateOfIdentify"
+                                        v-model="employee.dateOfIdentify"
                                         no-title
                                         scrollable
                                     >
@@ -165,19 +165,19 @@
                                 <div class="title-input">
                                     Tài khoản ngân hàng
                                 </div>
-                                <input type="text" >
+                                <input type="text" v-model="employee.bankAccount">
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Tên ngân hàng
                                 </div>
-                                <input type="text" >
+                                <input type="text" v-model="employee.bankName" >
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Chi nhánh 
                                 </div>
-                                <input type="text" >
+                                <input type="text" v-model="employee.bankBranch">
                             </div>
                     </div>
                 </div>
@@ -186,7 +186,7 @@
                         <div class="btn-text">Hủy</div>
                     </button>
                     <div class="right-btn item-center">
-                        <button class="btn btn-white">
+                        <button class="btn btn-white" v-on:click="Submit()">
                             <div class="btn-text">Cất</div>
                         </button>
                         <button class="btn btn-green">
@@ -202,29 +202,86 @@
 
 <script>
 import EventBus from "../event-bus";
-
+const axios = require("axios");
 export default {
     
 data(){
     return{
-        employee:[],
-        nullEmployee:[
-            
-        ],
+        nullEmployee:{
+            employeeId :"",
+            employeeCode : "",
+            employeeName : "",
+            gender : 1,
+            dateOfBirth : "",
+            identifyId : "",
+            position : "",
+            companyName : "",
+            bankAccount : "",
+            bankName : "",
+            bankBranch : "",
+            },
+        employee :[],
         isShow:false,
         isDate:false,
         isDateOfBirth:false,
-        menu2: false,
+        formMode:"",
     }
 },
+created(){
+    this.employee = this.nullEmployee;
+},
 mounted(){
+    let me = this;
     EventBus.$on("open_form", param =>{
-        this.isShow = param;
-    })
+        this.resetForm();
+        this.isShow = true;
+        me.formMode = param.formMode;
+        if(param.formMode == "Edit"){
+            me.employee = param.Employee;
+        }
+    });
 },
 methods:{
-    
-}
+    resetForm(){
+        this.employee = this.nullEmployee;
+    },
+    formatDate (date) {
+      if (!date) return null
+      var [year, month, day] = date.split('-')
+      day = day.substr(0,2);
+      return `${day}/${month}/${year}`
+    },
+    Submit(){
+        if(this.formMode == "Add"){
+            this.Add();
+        }
+        if(this.formMode == "Edit"){
+            this.Edit();
+        }
+    },
+    Add(){
+        axios.post("https://localhost:44300/api/v1/Employees", this.employee).then(response=>{
+            if(response.data.isValid == true){
+                EventBus.$emit("resetData", true);
+            }
+    });
+    },
+    Edit(){
+        console.log(this.employee);
+        axios.put("https://localhost:44300/api/v1/Employees", this.employee).then(response=>{
+            console.log(response);
+        if(response.data.isValid == true){
+            EventBus.$emit("resetData", true);
+            this.isShow = false;
+        }
+    });
+    },
+},
+computed: {
+    computedDateFormatted () {
+      return this.formatDate(this.employee.dateOfBirth)
+    },
+  },
 }
 </script>
 
