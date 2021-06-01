@@ -116,8 +116,8 @@
     color: rgb(75, 74, 74);
 }
 .table-content table{
-    margin-top: 5px;
     width: max-content;
+    border-spacing:0 ;
 }
 .table-content thead{
     z-index: 1;

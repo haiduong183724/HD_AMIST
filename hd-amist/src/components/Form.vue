@@ -1,15 +1,15 @@
 .<template>
-  <div class="form-wraper" :class="{'show':isShow}">
+  <div class="form-wraper" :class="{'show':isShow}" v-click-outside = "">
       <div class="form-content">
             <div class="form-header">
                 <div class="left-header item-center">
                     <h1>Thông tin nhân viên</h1>
                     <label for="" class="checkbox-label">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" >
                         Là khách hàng
                     </label>
                     <label for="" class="checkbox-label">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" >
                         Là khách hàng
                     </label>
                 </div>
@@ -32,13 +32,13 @@
                                 <div class="title-input">
                                     Mã <p> *</p>
                                 </div>
-                                <input type="text" name="" id="" v-model="employee.EmployeeCode">
+                                <input type="text"  v-model="employee.EmployeeCode">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
                                     Tên <p> *</p>
                                 </div>
-                                <input type="text" name="" id="" v-model="employee.EmployeeName">
+                                <input type="text"  v-model="employee.EmployeeName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -46,7 +46,7 @@
                                 <div class="title-input">
                                     Đơn vị<p>*</p>
                                 </div>
-                                <input type="text" name="" id="" v-model="employee.CompanyName">
+                                <input type="text"  v-model="employee.CompanyName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -54,7 +54,7 @@
                                 <div class="title-input">
                                     Chức danh <p></p>
                                 </div>
-                                <input type="text" name="" id="" v-model="employee.Position">
+                                <input type="text"  v-model="employee.Position">
                             </div>
                         </div>
                     </div>
@@ -65,18 +65,17 @@
                                     Ngày sinh
                                 </div>
                                 <div class="date_input">
-                                    <input type="text" name="" id="" v-model="employee.DateOfBirth">
+                                    <input type="text"  v-model="employee.DateOfBirth">
                                     <span class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
                                         calendar_today
                                     </span>
 
                                 </div>
-                                <div class="date__picker"  :class="{'show':isDateOfBirth}">
+                                <div class="date__picker"  :class="{'show':isDateOfBirth}" >
                                     
                                     <v-date-picker
                                         v-model="employee.DateOfBirth"
                                         no-title
-                                        @input="menu2 = false"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -88,7 +87,7 @@
                                 <div class="title-input">
                                     Giới tính
                                 </div>
-                                <input type="text" name="" id="" v-model="employee.Gender">
+                                <input type="text"  v-model="employee.Gender">
                             </div>
                         </div>
                         <div class="input-row d-flex">
@@ -96,22 +95,22 @@
                                 <div class="title-input">
                                     Số CMND
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                             <div class="short_length">
                                 <div class="title-input">
                                     Ngày cấp
                                 </div>
-                                <div class="date_input">
-                                    <input type="text" name="" id="">
+                                <div class="date_input" >
+                                    <input type="text" v-model="employee.DateOfIdentify">
                                     <span class="material-icons" v-on:click ="function(){isDate = !isDate }">
                                         calendar_today
                                     </span>
 
                                 </div>
-                                <div class="date__picker"  :class="{'show':isDate}">
+                                <div class="date__picker"  :class="{'show':isDate}" >
                                     <v-date-picker
-                                        v-model="date"
+                                        v-model="employee.DateOfIdentify"
                                         no-title
                                         scrollable
                                     >
@@ -127,7 +126,7 @@
                                 <div class="title-input">
                                     Nơi cấp <p></p>
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                         </div>
                     </div>
@@ -138,7 +137,7 @@
                             <div class="title-input">
                                 Địa chỉ<p></p>
                             </div>
-                            <input type="text" name="" id="">
+                            <input type="text" >
                         </div>
                     </div>
                     <div class="input-row d-flex">
@@ -146,19 +145,19 @@
                                 <div class="title-input">
                                     ĐT di động 
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     ĐT cố định 
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Email 
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                     </div>
                     <div class="input-row d-flex">
@@ -166,19 +165,19 @@
                                 <div class="title-input">
                                     Tài khoản ngân hàng
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Tên ngân hàng
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Chi nhánh 
                                 </div>
-                                <input type="text" name="" id="">
+                                <input type="text" >
                             </div>
                     </div>
                 </div>
@@ -203,10 +202,15 @@
 
 <script>
 import EventBus from "../event-bus";
+
 export default {
+    
 data(){
     return{
         employee:[],
+        nullEmployee:[
+            
+        ],
         isShow:false,
         isDate:false,
         isDateOfBirth:false,
@@ -217,6 +221,9 @@ mounted(){
     EventBus.$on("open_form", param =>{
         this.isShow = param;
     })
+},
+methods:{
+    
 }
 }
 </script>

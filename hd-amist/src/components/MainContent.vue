@@ -90,16 +90,16 @@
               <td class="table-outline left"></td>
               <td class = "static"><input type="checkbox"></td>
               <div>
-                <td class="small-td">{{employee.EmployeeCode}}</td>
-                <td class="big-td">{{employee.EmployeeName}}</td>
-                <td class="small-td">{{employee.Gender}}</td>
-                <td class="small-td">{{employee.DateOfBirth}}</td>
-                <td class="small-td">{{employee.IdentifyId}}</td>
-                <td class="small-td">{{employee.Position}}</td>
-                <td class="big-td">{{employee.CompanyName}}</td>
-                <td class="small-td">{{employee.BankAccount}}</td>
-                <td class="big-td">{{employee.BankName}}</td>
-                <td class="big-td">{{employee.BankBranch}}</td>
+                <td class="small-td">{{employee.employeeCode}}</td>
+                <td class="big-td">{{employee.employeeName}}</td>
+                <td class="small-td">{{employee.gender}}</td>
+                <td class="small-td">{{fomatDate(employee.dateOfBirth)}}</td>
+                <td class="small-td">{{employee.identifyId}}</td>
+                <td class="small-td">{{employee.position}}</td>
+                <td class="big-td">{{employee.companyName}}</td>
+                <td class="small-td">{{employee.bankAccount}}</td>
+                <td class="big-td">{{employee.bankName}}</td>
+                <td class="big-td">{{employee.bankBranch}}</td>
               </div>
               <td class="static-right">
                 <div>
@@ -121,298 +121,32 @@
 </template>
 
 <script>
-
+const axios = require("axios");
 import EventBus from "../event-bus";
 export default {
   data(){
     return{
-      employees:[
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-        {
-          EmployeeCode:"2",
-          EmployeeName:"1",
-          Gender:"2",
-          DateOfBirth:"3",
-          IdentifyId:"2",
-          Position:"1",
-          CompanyName:"2",
-          BankAccount:"3",
-          BankName:"3",
-          BankBranch:"2",
-        },
-      ],
+      employees:[],
     }
   }, 
   methods:{
     open_form(){
       EventBus.$emit('open_form', true);
+    },
+    fomatDate(datesrc){
+      let date = new Date(datesrc),
+        year = date.getFullYear().toString(),
+        month = (date.getMonth() + 1).toString().padStart(2, '0'),
+        day = date.getDate().toString().padStart(2, '0');
+    return `${day}/${month}/${year}`;
     }
-  }
+  },
+  mounted(){
+    axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
+      console.log(response.data);
+      this.employees = response.data;
+    });
+  },
 }
 </script>
 
