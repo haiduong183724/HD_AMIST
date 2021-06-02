@@ -81,7 +81,7 @@
 .date_input{
     display: flex;
     align-items: center;
-    border: 1px solid;
+    border: 1px solid  #babec5;
     margin-top: 10px;
     height: 32px;
     padding: 5px;
@@ -195,4 +195,7 @@
 .date_picker_footer a{
     text-decoration: none;
     color: #248b15;
+}
+.invalidField{
+    border-color: red !important ;
 }

@@ -4,7 +4,7 @@
         <div class="top-header">
           <h1>Nhân viên</h1>
           <div class="right-header">
-              <a href="">
+              <a href="#">
                 Tiện ích
                 <i class="material-icons">
                   arrow_drop_down
@@ -67,7 +67,7 @@
               </span>
             </th>
             <div class="head-title">
-            <th class="small-td top-static">MÃ NHÂN VIÊN</th>
+            <th class="small-td top-static"><p>MÃ NHÂN VIÊN</p></th>
             <th class="big-td">TÊN NHÂN VIÊN</th>
             <th class="small-td">GIỚI TÍNH</th>
             <th class="small-td">NGÀY SINH</th>
@@ -85,26 +85,36 @@
             </tr>
             
           </thead>
-          <tbody>
-            <tr v-for="(employee, index) in employees" :key="employee.employeeCode" :id = "index" v-on:click="InitrowSelected(index)">
+          <tbody style="display:contents">
+            <tr v-for="(item, index) in employees" :key="item.employeeId" :id = "index" v-on:click="InitrowSelected(index)">
               <td class="table-outline left"></td>
               <td class = "static" :class ="{'rowSelected': rowSelected == index}"><input type="checkbox" ></td>
-              <div>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.employeeCode}}</td>
-                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.employeeName}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.gender}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{fomatDate(employee.dateOfBirth)}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.identifyId}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.position}}</td>
-                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.companyName}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankAccount}}</td>
-                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankName}}</td>
-                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{employee.bankBranch}}</td>
+              <div class="row_content">
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}"><p>{{item.employeeCode}}</p></td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.employeeName}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.gender}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{fomatDate(item.dateOfBirth)}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.identifyId}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.position}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.companyName}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.bankAccount}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.bankName}}</td>
+                <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.bankBranch}}</td>
               </div>
-              <td class="static-right" :class ="{'rowSelected': rowSelected == index}"  v-on:click="edit(index)" >
-                <div>
-                  Sửa
+              <td class="static-right" :class ="{'rowSelected': rowSelected == index}"  >
+                <div class="item-center center">
+                  <span v-on:click="edit(index)" >Sửa</span>
+                  <div class="more_action">
+                    <i class="material-icons">
+                      arrow_drop_down
+                    </i>
+                    <div class="action">
+                      <p>Xóa</p>
+                      <p>Nhân bản</p>
+                    </div>
+                  </div>
                 </div>
+                
               </td>
               <td class="table-outline right"></td>
             </tr>
@@ -162,11 +172,12 @@ export default {
     async reLoadData(){
       this.$emit('showloading');
       await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
-      this.employees = response.data;
+      this.employees = response.data.slice().reverse();
       this.$emit('hideloading');
     });
     }
   },
+  
   mounted(){
     axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
       this.employees = response.data;

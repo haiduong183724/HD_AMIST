@@ -15,7 +15,7 @@
                 </div>
                 <div class="right-header">
                     <div class="pop-up-close">
-                        <i class="material-icons" v-on:click="function(){isShow = false}">
+                        <i class="material-icons" v-on:click="function(){isShow = false;resetForm();}">
                             close
                         </i>
                         <i class="material-icons">
@@ -32,13 +32,15 @@
                                 <div class="title-input">
                                     Mã <p> *</p>
                                 </div>
-                                <input type="text"  v-model="employee.employeeCode">
+                                <input type="text" v-model="employee.employeeCode" 
+                                FieldName = "Mã nhân viên" class="required" id = "employeeCode">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
                                     Tên <p> *</p>
                                 </div>
-                                <input type="text"  v-model="employee.employeeName">
+                                <input type="text"  v-model="employee.employeeName"
+                                FieldName = "Tên nhân viên" class="required" id = "employeeName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -46,7 +48,8 @@
                                 <div class="title-input">
                                     Đơn vị<p>*</p>
                                 </div>
-                                <input type="text"  v-model="employee.companyName">
+                                <input type="text"  v-model="employee.companyName" 
+                                FieldName = "Tên đơn vị" class="required" id = "companyName">
                             </div>
                         </div>
                         <div class="input-row">
@@ -54,7 +57,8 @@
                                 <div class="title-input">
                                     Chức danh <p></p>
                                 </div>
-                                <input type="text"  v-model="employee.position">
+                                <input type="text"  v-model="employee.position" 
+                                FieldName = "Chức vụ" id = "position">
                             </div>
                         </div>
                     </div>
@@ -65,7 +69,8 @@
                                     Ngày sinh
                                 </div>
                                 <div class="date_input">
-                                    <input type="text"  v-model="computedDateFormatted" readonly>
+                                    <input type="text"  v-model="computedDateFormatted" 
+                                    readonly FieldName = "Ngày sinh" id = "dateOfBirth">
                                     <span class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
                                         calendar_today
                                     </span>
@@ -76,6 +81,7 @@
                                     <v-date-picker
                                         v-model="employee.dateOfBirth"
                                         no-title
+                                        locale="vn"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -87,7 +93,8 @@
                                 <div class="title-input">
                                     Giới tính
                                 </div>
-                                <input type="text"  v-model="employee.gender">
+                                <input type="text"  v-model="employee.gender" 
+                                FieldName = "Giới tính" id = "gender">
                             </div>
                         </div>
                         <div class="input-row d-flex">
@@ -95,14 +102,15 @@
                                 <div class="title-input">
                                     Số CMND
                                 </div>
-                                <input type="text" v-model="employee.identifyId" >
+                                <input type="text" v-model="employee.identifyId"
+                                 FieldName = "Số CMND" id = " identifyId">
                             </div>
                             <div class="short_length">
                                 <div class="title-input">
                                     Ngày cấp
                                 </div>
                                 <div class="date_input" >
-                                    <input type="text" v-model="employee.dateOfIdentify" readonly>
+                                    <input type="text" v-model="employee.dateOfIdentify" readonly FieldName = "Ngày cấp">
                                     <span class="material-icons" v-on:click ="function(){isDate = !isDate }">
                                         calendar_today
                                     </span>
@@ -113,6 +121,7 @@
                                         v-model="employee.dateOfIdentify"
                                         no-title
                                         scrollable
+                                        locale="vn"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -126,7 +135,7 @@
                                 <div class="title-input">
                                     Nơi cấp <p></p>
                                 </div>
-                                <input type="text" >
+                                <input type="text" FieldName = "Nơi cấp">
                             </div>
                         </div>
                     </div>
@@ -137,7 +146,7 @@
                             <div class="title-input">
                                 Địa chỉ<p></p>
                             </div>
-                            <input type="text" >
+                            <input type="text" FieldName = "Địa chỉ" >
                         </div>
                     </div>
                     <div class="input-row d-flex">
@@ -145,19 +154,19 @@
                                 <div class="title-input">
                                     ĐT di động 
                                 </div>
-                                <input type="text" >
+                                <input type="text" FieldName = "ĐT di động" id ="mobilePhone">
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     ĐT cố định 
                                 </div>
-                                <input type="text" >
+                                <input type="text" FieldName = "ĐT cố định"  id = "HomePhone">
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Email 
                                 </div>
-                                <input type="text" >
+                                <input type="text"  id = "Email">
                             </div>
                     </div>
                     <div class="input-row d-flex">
@@ -165,19 +174,22 @@
                                 <div class="title-input">
                                     Tài khoản ngân hàng
                                 </div>
-                                <input type="text" v-model="employee.bankAccount">
+                                <input type="text" v-model="employee.bankAccount"
+                                 FieldName = "Tài khoản ngân hàng" id = "bankAccount">
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Tên ngân hàng
                                 </div>
-                                <input type="text" v-model="employee.bankName" >
+                                <input type="text" v-model="employee.bankName" 
+                                FieldName = "Tên ngân hàng" id = "bankName">
                             </div>
                             <div class="small_length">
                                 <div class="title-input">
                                     Chi nhánh 
                                 </div>
-                                <input type="text" v-model="employee.bankBranch">
+                                <input type="text" v-model="employee.bankBranch"
+                                 FieldName = "Chi nhánh" id = "bankBranch">
                             </div>
                     </div>
                 </div>
@@ -208,7 +220,6 @@ export default {
 data(){
     return{
         nullEmployee:{
-            employeeId :"",
             employeeCode : "",
             employeeName : "",
             gender : 1,
@@ -225,6 +236,7 @@ data(){
         isDate:false,
         isDateOfBirth:false,
         formMode:"",
+        formValid:true,
     }
 },
 created(){
@@ -251,12 +263,54 @@ methods:{
       day = day.substr(0,2);
       return `${day}/${month}/${year}`
     },
-    Submit(){
-        if(this.formMode == "Add"){
-            this.Add();
+    checkValid(){
+        this.formValid=true;
+        this.checkNotEmpty();
+        this.checkEmployeeCode();
+    },
+    checkNotEmpty(){
+        let me = this, 
+        requiredElement =  document.getElementsByClassName("required");
+        for (let index = 0; index < requiredElement.length; index++) {
+            if(requiredElement[index].value == ""){
+                console.log( requiredElement[index]);
+                let FieldName = requiredElement[index].getAttribute("FieldName");
+                requiredElement[index].title = `${FieldName} không được để trống`;
+                requiredElement[index].classList.add("invalidField");
+                me.formValid = false;    
+            }
+            else{
+                requiredElement[index].title = "";
+                requiredElement[index].classList.remove("invalidField");
+            }
         }
-        if(this.formMode == "Edit"){
-            this.Edit();
+    },
+    checkEmployeeCode(){
+        let me = this,
+            EmployeeCode = me.employee.employeeCode;
+        if(EmployeeCode != ""){
+            let employeeElement = document.getElementById("employeeCode");
+            if(EmployeeCode.substr(0,2) != "MF" ){
+                employeeElement.title = "Mã nhân viên không đúng định dạng";
+                employeeElement.classList.add("invalidField");
+                me.formValid = false;
+            }
+            else{
+                employeeElement.title = "";
+                employeeElement.classList.remove("invalidField");
+            }
+        }
+    },
+    Submit(){
+        console.log(this.employee);
+        this.checkValid();
+        if(this.formValid){
+            if(this.formMode == "Add"){
+                this.Add();
+            }
+            if(this.formMode == "Edit"){
+                this.Edit();
+            }
         }
     },
     Add(){
@@ -264,7 +318,7 @@ methods:{
             if(response.data.isValid == true){
                 EventBus.$emit("resetData", true);
             }
-    });
+    }).catch(err =>{console.log(err)});
     },
     Edit(){
         console.log(this.employee);
@@ -274,7 +328,7 @@ methods:{
             EventBus.$emit("resetData", true);
             this.isShow = false;
         }
-    });
+    }).catch(err =>{console.log(err)});
     },
 },
 computed: {

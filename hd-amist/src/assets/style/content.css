@@ -65,7 +65,7 @@
 .table-content{
     background: white;
     overflow: auto;
-    height: 580px;
+    height: 523px;
 }
 .table-content .table-header{
     display: flex;
@@ -137,10 +137,10 @@
     position: sticky;
     top:0;
 }
-.table-content .big-td{
+.table-content table .big-td{
     width: 229px;
 }
-.table-content .small-td{
+.table-content table .small-td{
     width: 129px;
 }
 .table-content thead .static{
@@ -232,4 +232,8 @@
 }
 .table-content td.static-right{
     cursor: pointer;
+}
+.more_action .action{
+    z-index: 200;
+    display: none;
 }
