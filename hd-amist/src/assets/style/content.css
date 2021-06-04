@@ -224,6 +224,13 @@
     justify-content: space-between;
     align-items: center;
 }
+.d-right{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.static-right .more_action{
+    padding:0 12px;
+}
 .table-content tr:hover td{
     background-color:#f3f8f8 ;
 }
@@ -233,7 +240,23 @@
 .table-content td.static-right{
     cursor: pointer;
 }
-.more_action .action{
-    z-index: 200;
+.content .action{
+    position: absolute;
+    height: auto;
+    width: 100px;
+    z-index: 9990;
+    transform: translate(-100%);
+    transition: opacity .25s,transform .25s,width .3s ease;
+    background-color: white;
     display: none;
+}
+.expand_more{
+    display: block !important;
+}
+.action p{
+    padding: 8px 10px;
+    cursor: pointer;
+}
+.action p:hover{
+    background-color: #3eac2d;
 }

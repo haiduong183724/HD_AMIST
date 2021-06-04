@@ -1,5 +1,9 @@
 <template>
   <div class="content">
+      <div class="action" v-bind:style="{left:xClick, top:yClick}">
+        <p v-on:click ="Delete()" >Xóa</p>
+        <p v-on:click ="Clone()">Nhân bản</p>
+      </div>
       <div class="header-content">
         <div class="top-header">
           <h1>Nhân viên</h1>
@@ -11,7 +15,7 @@
                 </i>
               </a>
               <div class="add-btn">
-                <a href="#" v-on:click="add()">
+                <a href="#" v-on:click="add()" style="color:white">
                 Thêm
                 </a>
                 <a href="#">
@@ -102,19 +106,15 @@
                 <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.bankBranch}}</td>
               </div>
               <td class="static-right" :class ="{'rowSelected': rowSelected == index}"  >
-                <div class="item-center center">
-                  <span v-on:click="edit(index)" >Sửa</span>
+                <div class="item-center d-right">
+                  
                   <div class="more_action">
-                    <i class="material-icons">
+                    <i class="material-icons" v-on:click ="function(event){openMoreSelect(event,index)}">
                       arrow_drop_down
                     </i>
-                    <div class="action">
-                      <p>Xóa</p>
-                      <p>Nhân bản</p>
-                    </div>
                   </div>
+                  <span v-on:click="edit(index)" >Sửa</span>
                 </div>
-                
               </td>
               <td class="table-outline right"></td>
             </tr>
@@ -129,18 +129,38 @@
       </div>
   </div>
 </template>
-
 <script>
 const axios = require("axios");
 import EventBus from "../event-bus";
+import swal from 'sweetalert';
 export default {
   data(){
     return{
       employees:[],
       rowSelected:0,
+      xClick:'100px',
+      yClick:'100px',
+      ownSelection:-1,
     }
   }, 
   methods:{
+    
+    // Hiển thị select Xóa, nhân bản khi nhấn expand more
+    openMoreSelect(event, index){
+      // hiển thị
+        if(this.ownSelection != index){
+          this.xClick =`${event.clientX.toString()}px`;
+          this.yClick =`${event.clientY.toString()}px`;
+          document.getElementsByClassName("action")[0].classList.add("expand_more");
+          this.ownSelection = index;
+        }
+      // nhấn lần nữa để ẩn
+        else{
+          document.getElementsByClassName("action")[0].classList.remove("expand_more");
+          this.ownSelection = -1;
+        } 
+    },
+    // Gọi đến chức năng chỉnh sửa
     edit(index){
       let me = this, 
       param = {
@@ -149,39 +169,90 @@ export default {
       }
       me.open_form(param);
     },
+    // gọi đến chức năng thêm
     add(){
       let param = {
         formMode:"Add",
       }
       this.open_form(param);
     },
+    // Hàm xóa đối tượng đang chọn
+    Delete(){
+      let EmployeeID = this.employees[this.rowSelected].employeeId,
+          url = "https://localhost:44300/api/v1/Employees/"+EmployeeID;
+          console.log(url);
+          axios.delete(url).then(response =>{
+            if(response.data.isValid == false){
+              swal("Xóa dữ liệu thất bại!");
+            }
+            else{
+              swal("Xóa dữ liệu thành công!");
+              this.reLoadData();
+              document.getElementsByClassName("action")[0].classList.remove("expand_more");
+            }
+
+          }).catch(err =>{
+            console.log(err);
+          })
+    },
+    // Hàm nhân bản đối tượng đang chọn
+    async Clone(){
+      // khai báo
+      let me = this,
+        newEmployee = me.employees[this.rowSelected],
+        newEmployeeCode = "";
+        // tạo mã nhân viên mới
+      await axios.get("https://localhost:44300/api/v1/Employees/NewCode").then(response=>{
+        if(response.data.isValid == true){
+          newEmployeeCode = response.data.data[0];
+          newEmployee.employeeCode = newEmployeeCode;
+        }
+      }).catch(err=>{
+        swal("Load dữ liệu thất bại");
+        console.log(err);
+      });
+      let param = {
+        formMode :"Add",
+        Employee : newEmployee,
+      }
+      me.open_form(param);
+      document.getElementsByClassName("action")[0].classList.remove("expand_more");
+    },
+    // gọi đến chức năng mở form
     open_form(param)
     {
       EventBus.$emit('open_form', param);
     },
+    // fomat lại ngày
     fomatDate(datesrc){
       let date = new Date(datesrc),
         year = date.getFullYear().toString(),
         month = (date.getMonth() + 1).toString().padStart(2, '0'),
         day = date.getDate().toString().padStart(2, '0');
-    return `${day}/${month}/${year}`;
+      return `${day}/${month}/${year}`;
     },
+    // Xử lý khi có một cột được chọn
     InitrowSelected(index){
       this.rowSelected = index;
     },
+    // Hàm reload lại dữ liệu
     async reLoadData(){
       this.$emit('showloading');
       await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
-      this.employees = response.data.slice().reverse();
+      this.employees = response.data.data[0].slice().reverse();
       this.$emit('hideloading');
+    }).catch(err=>{
+      swal("Load dữ liệu thất bại");
+      console.log(err);
     });
     }
   },
-  
+  // Khi khởi tạo: load dữ liệu lên bảng
   mounted(){
     axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
-      this.employees = response.data;
+        this.employees = response.data.data[0].slice().reverse();
     });
+    // Gửi thông điệp mở form
     EventBus.$on('resetData', param =>{
       if(param){
         this.reLoadData();

@@ -215,6 +215,7 @@
 <script>
 import EventBus from "../event-bus";
 const axios = require("axios");
+import swal from 'sweetalert';
 export default {
     
 data(){
@@ -248,8 +249,8 @@ mounted(){
         this.resetForm();
         this.isShow = true;
         me.formMode = param.formMode;
-        if(param.formMode == "Edit"){
-            me.employee = param.Employee;
+        if(param.Employee != undefined){
+            this.employee = param.Employee;
         }
     });
 },
@@ -302,7 +303,6 @@ methods:{
         }
     },
     Submit(){
-        console.log(this.employee);
         this.checkValid();
         if(this.formValid){
             if(this.formMode == "Add"){
@@ -317,8 +317,12 @@ methods:{
         axios.post("https://localhost:44300/api/v1/Employees", this.employee).then(response=>{
             if(response.data.isValid == true){
                 EventBus.$emit("resetData", true);
+                this.isShow = false;
+                swal("thêm dữ liệu thành công!");
             }
-    }).catch(err =>{console.log(err)});
+    }).catch(err =>{console.log(err)
+        swal("thêm dữ liệu thất bại!");
+    });
     },
     Edit(){
         console.log(this.employee);
@@ -327,6 +331,7 @@ methods:{
         if(response.data.isValid == true){
             EventBus.$emit("resetData", true);
             this.isShow = false;
+            swal(response.data.errorMsg[0]);
         }
     }).catch(err =>{console.log(err)});
     },
