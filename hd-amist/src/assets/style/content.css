@@ -65,7 +65,7 @@
 .table-content{
     background: white;
     overflow: auto;
-    height: 523px;
+    height: calc(100% - 150px);
 }
 .table-content .table-header{
     display: flex;
@@ -259,4 +259,9 @@
 }
 .action p:hover{
     background-color: #3eac2d;
+}
+.paging-footer select{
+    -webkit-appearance: button;
+    padding: 8px;
+    border: 1px solid;
 }

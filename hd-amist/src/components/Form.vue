@@ -207,12 +207,12 @@
                     </div>
                 </div>
             </div>
-            
       </div>
   </div>
 </template>
 
 <script>
+
 import EventBus from "../event-bus";
 const axios = require("axios");
 import swal from 'sweetalert';

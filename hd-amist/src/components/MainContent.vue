@@ -125,7 +125,13 @@
       </div>
       <div class="main-footer">
         <p>Tổng số: <b>{{employees.length}}</b> bản ghi</p>
-        
+        <div class="paging-footer item-center">
+          <select v-model = "selected">
+            <option v-for="option in options" :key = "option.value" v-bind:value="option.value">
+              {{ option.text }}
+            </option>
+          </select>
+        </div>
       </div>
   </div>
 </template>
@@ -133,6 +139,7 @@
 const axios = require("axios");
 import EventBus from "../event-bus";
 import swal from 'sweetalert';
+
 export default {
   data(){
     return{
@@ -141,8 +148,13 @@ export default {
       xClick:'100px',
       yClick:'100px',
       ownSelection:-1,
+      selected: 10,
+    options: [
+      { text: '10 bản ghi trong 1 trang', value: 10 },
+      { text: '20 bản ghi trong 1 trang', value: 20 },
+    ]
     }
-  }, 
+  },
   methods:{
     
     // Hiển thị select Xóa, nhân bản khi nhấn expand more
