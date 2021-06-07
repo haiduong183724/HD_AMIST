@@ -199,3 +199,12 @@
 .invalidField{
     border-color: red !important ;
 }
+.input-row input[type = "radio"]{
+    height:18px;
+    width: 18px;
+    color: #248b15;
+    margin-right: 5px;
+}
+.input-row span,.gentle{
+    margin-right: 16px;
+}

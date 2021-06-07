@@ -93,8 +93,14 @@
                                 <div class="title-input">
                                     Giới tính
                                 </div>
-                                <input type="text"  v-model="employee.gender" 
-                                FieldName = "Giới tính" id = "gender">
+                                <div class="item-center" style="height:32px; margin-top:10px">
+                                    <input type="radio" name="gentle" value="0" v-model="employee.gender">
+                                    <label class="gentle">Nam</label>
+                                    <input type="radio" name="gentle" value="1" v-model="employee.gender">
+                                    <label class="gentle">Nữ</label>
+                                    <input type="radio" name="gentle" value="2" v-model="employee.gender">
+                                    <label class="gentle">Khác</label>
+                                </div>
                             </div>
                         </div>
                         <div class="input-row d-flex">
