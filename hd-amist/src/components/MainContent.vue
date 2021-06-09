@@ -44,7 +44,7 @@
             </a>
             <div class="right-table-header item-center">
               <div class="filter-input item-center">
-                <input type="text" placeholder="Tìm kiếm theo mã, tên nhân viên">
+                <input type="text" placeholder="Tìm kiếm theo mã, tên nhân viên" v-model="findKeyWord" v-on:input = "findEmployee()"> 
                 <i class="material-icons">
                   search
                 </i>
@@ -144,9 +144,18 @@ import EventBus from "../event-bus";
 import swal from 'sweetalert';
 
 export default {
+  directives: {
+  focus: {
+    // directive definition
+    inserted: function (el) {
+      el.focus()
+    }
+  }
+  },
   data(){
     return{
       employees:[],
+      cacheEmployees:[],
       rowSelected:0,
       xClick:'100px',
       yClick:'100px',
@@ -154,10 +163,12 @@ export default {
       numRecordOnPage: 10,
       pageNum : 1,
       pageList:[],
+      findKeyWord:'',
     options: [
       { text: '10 bản ghi trong 1 trang', value: 10 },
       { text: '20 bản ghi trong 1 trang', value: 20 },
-    ]
+    ],
+    employeesFindList:[]
     }
   },
   methods:{
@@ -192,7 +203,6 @@ export default {
 
     // hàm xử lý sự kiện thay đổi số bản ghi trên 1 trang
     onChange(){
-      console.log("a");
       this.createPageList();
       this.pageNum = 1;
     },
@@ -282,18 +292,33 @@ export default {
       this.$emit('showloading');
       await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
       this.employees = response.data.data[0].slice().reverse();
+      this.cacheEmployees = this.employees;
       this.$emit('hideloading');
     }).catch(err=>{
       swal("Load dữ liệu thất bại");
       console.log(err);
     });
+    },
+
+    // hàm tạo danh sách các nhân viên ứng với kq tìm kiếm
+    findEmployee(){
+      let me = this,
+      keyword = me.findKeyWord.toLowerCase();
+      me.employeesFindList = [];
+      me.cacheEmployees.filter(employee=>{
+        let Code = employee.employeeCode.toLowerCase(),
+            Name = employee.employeeName.toLowerCase();
+        if(Code.search(keyword) != -1 || Name.search(keyword) != -1){
+          me.employeesFindList.push(employee);
+        }
+      });
+      me.employees = me.employeesFindList;
+      this.createPageList();
     }
   },
   // Khi khởi tạo: load dữ liệu lên bảng
   async created(){
-    await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
-        this.employees = response.data.data[0].slice().reverse();
-    });
+    await this.reLoadData();
     this.createPageList();
     // Gửi thông điệp mở form
     EventBus.$on('resetData', param =>{
@@ -301,8 +326,12 @@ export default {
         this.reLoadData();
       }
     })
-    
   },
+  updated(){
+    if(this.findKeyWord == ""){
+      this.employees = this.cacheEmployees;
+    }
+  }
 }
 </script>
 

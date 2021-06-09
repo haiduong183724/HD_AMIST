@@ -1,5 +1,5 @@
 .<template>
-  <div class="form-wraper" :class="{'show':isShow}" v-click-outside = "">
+  <div class="form-wraper" :class="{'show':isShow}">
       <div class="form-content">
             <div class="form-header">
                 <div class="left-header item-center">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="right-header">
                     <div class="pop-up-close">
-                        <i class="material-icons" v-on:click="function(){isShow = false;resetForm();}">
+                        <i class="material-icons" v-on:click="function(){isShow = false;}">
                             close
                         </i>
                         <i class="material-icons">
@@ -33,7 +33,7 @@
                                     Mã <p> *</p>
                                 </div>
                                 <input type="text" v-model="employee.employeeCode" 
-                                FieldName = "Mã nhân viên" class="required" id = "employeeCode">
+                                FieldName = "Mã nhân viên" class="required" id = "employeeCode" ref="firstinput">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
@@ -71,9 +71,9 @@
                                 <div class="date_input">
                                     <input type="text"  v-model="computedDateFormatted" 
                                     readonly FieldName = "Ngày sinh" id = "dateOfBirth">
-                                    <span class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
+                                    <i class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
                                         calendar_today
-                                    </span>
+                                    </i>
 
                                 </div>
                                 <div class="date__picker"  :class="{'show':isDateOfBirth}" >
@@ -117,9 +117,9 @@
                                 </div>
                                 <div class="date_input" >
                                     <input type="text" v-model="employee.dateOfIdentify" readonly FieldName = "Ngày cấp">
-                                    <span class="material-icons" v-on:click ="function(){isDate = !isDate }">
+                                    <i class="material-icons" v-on:click ="function(){isDate = !isDate }">
                                         calendar_today
-                                    </span>
+                                    </i>
 
                                 </div>
                                 <div class="date__picker"  :class="{'show':isDate}" >
@@ -223,7 +223,14 @@ import EventBus from "../event-bus";
 const axios = require("axios");
 import swal from 'sweetalert';
 export default {
-    
+    directives: {
+    focus: {
+    // directive definition
+        bind: function (el) {
+      el.focus()
+        }
+    }
+  },
 data(){
     return{
         nullEmployee:{
@@ -246,23 +253,22 @@ data(){
         formValid:true,
     }
 },
-created(){
-    this.employee = this.nullEmployee;
-},
 mounted(){
     let me = this;
     EventBus.$on("open_form", param =>{
-        this.resetForm();
-        this.isShow = true;
+        me.isShow = true;
+        me.resetForm();
         me.formMode = param.formMode;
         if(param.Employee != undefined){
             this.employee = param.Employee;
         }
+        this.$refs.firstinput.focus();
     });
 },
 methods:{
     resetForm(){
         this.employee = this.nullEmployee;
+        
     },
     formatDate (date) {
       if (!date) return null

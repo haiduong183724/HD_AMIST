@@ -145,6 +145,9 @@
     transition: 0.2s;
     margin:0 5px;
 }
+.form-footer .btn:focus{
+    border: 1px solid #111 !important;
+}
 .form-footer .btn-white{
     border: 1px solid #8d9096;
     color: #111;
@@ -179,7 +182,7 @@
     position: absolute;
     display: none;
 }
-.date_input span{
+.date_input i{
     cursor: pointer;
     font-size: 16px;
     margin: 5px;
