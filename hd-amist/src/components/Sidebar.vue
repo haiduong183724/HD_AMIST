@@ -188,7 +188,7 @@
 <script>
 import "../assets/style/sidebar.css"
 export default {
-
+    
 }
 </script>
 

@@ -90,7 +90,7 @@
             
           </thead>
           <tbody style="display:contents">
-            <tr v-for="(item, index) in employees" :key="item.employeeId" :id = "index" v-on:click="InitrowSelected(index)">
+            <tr v-for="(item, index) in employees.slice((pageNum-1)*numRecordOnPage, pageNum*numRecordOnPage)" :key="item.employeeId" :id = "index"  v-on:click="InitrowSelected(index)">
               <td class="table-outline left"></td>
               <td class = "static" :class ="{'rowSelected': rowSelected == index}"><input type="checkbox" ></td>
               <div class="row_content">
@@ -126,11 +126,14 @@
       <div class="main-footer">
         <p>Tổng số: <b>{{employees.length}}</b> bản ghi</p>
         <div class="paging-footer item-center">
-          <select v-model = "selected">
+          <select v-model = "numRecordOnPage" v-on:change = "onChange">
             <option v-for="option in options" :key = "option.value" v-bind:value="option.value">
               {{ option.text }}
             </option>
           </select>
+          <div class="page_mark item-center">
+              <p v-for="item in pageList" :key="item" v-on:click = "()=>{pageNum = item}">{{item}}</p>
+          </div>
         </div>
       </div>
   </div>
@@ -148,7 +151,9 @@ export default {
       xClick:'100px',
       yClick:'100px',
       ownSelection:-1,
-      selected: 10,
+      numRecordOnPage: 10,
+      pageNum : 1,
+      pageList:[],
     options: [
       { text: '10 bản ghi trong 1 trang', value: 10 },
       { text: '20 bản ghi trong 1 trang', value: 20 },
@@ -156,7 +161,6 @@ export default {
     }
   },
   methods:{
-    
     // Hiển thị select Xóa, nhân bản khi nhấn expand more
     openMoreSelect(event, index){
       // hiển thị
@@ -172,6 +176,27 @@ export default {
           this.ownSelection = -1;
         } 
     },
+
+    // tạo danh sách các trang
+    createPageList(){
+      let me = this,
+      numPage = Math.floor(me.employees.length/me.numRecordOnPage);
+      me.pageList = [];
+      if(me.employees.length % me.numRecordOnPage != 0){
+        numPage++;
+      }
+      for (let index = 0; index < numPage; index++) {
+          me.pageList.push(index+1);        
+      }
+    },
+
+    // hàm xử lý sự kiện thay đổi số bản ghi trên 1 trang
+    onChange(){
+      console.log("a");
+      this.createPageList();
+      this.pageNum = 1;
+    },
+
     // Gọi đến chức năng chỉnh sửa
     edit(index){
       let me = this, 
@@ -181,6 +206,7 @@ export default {
       }
       me.open_form(param);
     },
+
     // gọi đến chức năng thêm
     add(){
       let param = {
@@ -188,6 +214,7 @@ export default {
       }
       this.open_form(param);
     },
+
     // Hàm xóa đối tượng đang chọn
     Delete(){
       let EmployeeID = this.employees[this.rowSelected].employeeId,
@@ -207,6 +234,7 @@ export default {
             console.log(err);
           })
     },
+
     // Hàm nhân bản đối tượng đang chọn
     async Clone(){
       // khai báo
@@ -230,11 +258,13 @@ export default {
       me.open_form(param);
       document.getElementsByClassName("action")[0].classList.remove("expand_more");
     },
+
     // gọi đến chức năng mở form
     open_form(param)
     {
       EventBus.$emit('open_form', param);
     },
+
     // fomat lại ngày
     fomatDate(datesrc){
       let date = new Date(datesrc),
@@ -260,16 +290,18 @@ export default {
     }
   },
   // Khi khởi tạo: load dữ liệu lên bảng
-  mounted(){
-    axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
+  async created(){
+    await axios.get("https://localhost:44300/api/v1/Employees").then(response=>{
         this.employees = response.data.data[0].slice().reverse();
     });
+    this.createPageList();
     // Gửi thông điệp mở form
     EventBus.$on('resetData', param =>{
       if(param){
         this.reLoadData();
       }
     })
+    
   },
 }
 </script>
