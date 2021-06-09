@@ -15,7 +15,7 @@
                 </div>
                 <div class="right-header">
                     <div class="pop-up-close">
-                        <i class="material-icons" v-on:click="function(){isShow = false;}">
+                        <i class="material-icons" v-on:click="closeForm()">
                             close
                         </i>
                         <i class="material-icons">
@@ -33,7 +33,7 @@
                                     Mã <p> *</p>
                                 </div>
                                 <input type="text" v-model="employee.employeeCode" 
-                                FieldName = "Mã nhân viên" class="required" id = "employeeCode" ref="firstinput">
+                                FieldName = "Mã nhân viên" class="required" id = "employeeCode" ref="focusfirst">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
@@ -200,7 +200,7 @@
                     </div>
                 </div>
                 <div class="form-footer d-flex">
-                    <button class="btn btn-white" v-on:click = "()=>{isShow = false}">
+                    <button class="btn btn-white" v-on:click = "closeForm()">
                         <div class="btn-text">Hủy</div>
                     </button>
                     <div class="right-btn item-center">
@@ -223,14 +223,7 @@ import EventBus from "../event-bus";
 const axios = require("axios");
 import swal from 'sweetalert';
 export default {
-    directives: {
-    focus: {
-    // directive definition
-        bind: function (el) {
-      el.focus()
-        }
-    }
-  },
+    
 data(){
     return{
         nullEmployee:{
@@ -257,18 +250,24 @@ mounted(){
     let me = this;
     EventBus.$on("open_form", param =>{
         me.isShow = true;
-        me.resetForm();
         me.formMode = param.formMode;
         if(param.Employee != undefined){
             this.employee = param.Employee;
         }
-        this.$refs.firstinput.focus();
     });
 },
+updated(){
+    this.autofocus();
+},
 methods:{
-    resetForm(){
+     autofocus(){
+        if(this.$refs.focusfirst != undefined){
+             this.$refs.focusfirst.focus();
+        }
+    },
+    closeForm(){
         this.employee = this.nullEmployee;
-        
+        this.isShow = false;
     },
     formatDate (date) {
       if (!date) return null

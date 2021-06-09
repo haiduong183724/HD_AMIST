@@ -218,9 +218,21 @@ export default {
     },
 
     // gọi đến chức năng thêm
-    add(){
+    async add(){
+      let newEmployee = {},
+      newEmployeeCode = "";
+      await axios.get("https://localhost:44300/api/v1/Employees/NewCode").then(response=>{
+        if(response.data.isValid == true){
+          newEmployeeCode = response.data.data[0];
+          newEmployee.employeeCode = newEmployeeCode;
+        }
+      }).catch(err=>{
+        swal("Load dữ liệu thất bại");
+        console.log(err);
+      });
       let param = {
         formMode:"Add",
+        Employee:newEmployee,
       }
       this.open_form(param);
     },
