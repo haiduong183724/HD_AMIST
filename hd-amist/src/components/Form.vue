@@ -200,7 +200,7 @@
                     </div>
                 </div>
                 <div class="form-footer d-flex">
-                    <button class="btn btn-white">
+                    <button class="btn btn-white" v-on:click = "()=>{isShow = false}">
                         <div class="btn-text">Hủy</div>
                     </button>
                     <div class="right-btn item-center">
