@@ -33,13 +33,12 @@ export default {
         height:Number,
         // thông tin của các select trong combo box
         data:Array,
+        selectValue: {},
     },
     data(){
         return{
             // isshow = true:  hiển thị selecbox, isshow = false: đóng 
-            isshow:false,
-            // giá trị đang được lựa chọn của selecbox
-            selectValue: {},
+            isshow:false,            
             // giá trị của selectbox có hợp lệ hay không
             valid:true,
             // mảng lưu các giá trị select được truyền vào từ component cha
@@ -234,10 +233,8 @@ export default {
         margin: 0;
     }
     .combo-box-wraper{
-        max-height: 100px;
-        min-height: 40px;
         min-width: 100px;
-        max-width: 300px;
+        max-width: 400px;
     }
     .combo-box-wrap{
         display: flex;
@@ -262,7 +259,10 @@ export default {
         padding:5px ;
         cursor: pointer;
         width: calc(height);
+        height: 100%;
         border-left:1px solid rgb(104, 102, 102);
+        display: flex;
+        align-items: center;
     }
     .selected-list-combo-box{
         text-align: left;
@@ -272,10 +272,9 @@ export default {
         z-index: 10000;
         position: absolute;
         box-sizing: border-box;
-        max-height: 100px;
-        min-height: 40px;
         min-width: 100px;
-        max-width: 300px;
+        max-width: 400px;
+        background: white;
     }
     .selected-list-combo-box .combo-selection{
         padding: 5px;

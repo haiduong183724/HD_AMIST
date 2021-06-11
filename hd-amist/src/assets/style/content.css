@@ -205,6 +205,7 @@
     box-sizing: border-box;
     background-color: white;
     vertical-align: middle;
+    cursor: default;
 }
 .table-content .table_cell{
     height: calc(100% - 13) !important;

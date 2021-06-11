@@ -97,7 +97,7 @@
               <div class="row_content">
                 <td class="small-td" :class ="{'rowSelected': rowSelected == index}"><p>{{item.employeeCode}}</p></td>
                 <td class="big-td" :class ="{'rowSelected': rowSelected == index}">{{item.employeeName}}</td>
-                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.gender}}</td>
+                <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{fomatGender(item.gender)}}</td>
                 <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{fomatDate(item.dateOfBirth)}}</td>
                 <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.identifyId}}</td>
                 <td class="small-td" :class ="{'rowSelected': rowSelected == index}">{{item.position}}</td>
@@ -133,7 +133,7 @@
             </option>
           </select>
           <div class="page_mark item-center">
-              <p v-for="item in pageList" :key="item" v-on:click = "()=>{pageNum = item}">{{item}}</p>
+              <p v-for="item in pageList" :key="item" v-on:click = "changeToPage(item)">{{item}}</p>
           </div>
         </div>
       </div>
@@ -332,7 +332,7 @@ export default {
       this.createPageList();
     },
     nextSelect(){
-      if(this.rowSelected < this.numRecordOnPage-1)
+      if(this.rowSelected < this.employees.length-1)
         this.rowSelected++;
     },
     preSelect(){
@@ -343,17 +343,33 @@ export default {
     nextPage(){
       if(this.pageNum < this.pageList.length){
         this.pageNum++;
+        this.rowSelected = 0;
       }
     },
     prePage(){
       if(this.pageNum>1){
         this.pageNum--;
+        this.rowSelected = 0;
       }
+    },
+    changeToPage(index){
+      if(index<=this.pageList.length && index>0){
+        this.pageNum = index;
+        this.rowSelected=0;
+      }
+      this.$refs.findEmploy.focus();
     },
     shortcut(funcCallBack){
       funcCallBack();
       let e = window.event;
       e.preventDefault();
+    },
+    fomatGender(gender){
+      switch(gender){
+        case 0: return 'Nam';
+        case 1: return 'Nữ';
+        case 2: return 'Khác';
+      }
     }
   },
   // Khi khởi tạo: load dữ liệu lên bảng

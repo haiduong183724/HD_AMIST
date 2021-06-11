@@ -50,8 +50,11 @@
                                 <div class="title-input">
                                     Đơn vị<p>*</p>
                                 </div>
-                                <input type="text"  v-model="employee.companyName" 
-                                FieldName = "Tên đơn vị" class="required" id = "companyName">
+                                <!-- <input type="text"  v-model="employee.companyName" 
+                                FieldName = "Tên đơn vị" class="required" id = "companyName"> -->
+                                <div style="padding:5px 0">
+                                    <ComboBox :height="32" :width="398" :data="selectData"/>
+                                </div>
                             </div>
                         </div>
                         <div class="input-row">
@@ -225,8 +228,9 @@
 import EventBus from "../event-bus";
 const axios = require("axios");
 import swal from 'sweetalert';
+import ComboBox from '../components/ComboBox.vue';
 export default {
-    
+components:{ComboBox },
 data(){
     return{
         nullEmployee:{
@@ -247,7 +251,11 @@ data(){
         isDateOfBirth:false,
         formMode:"",
         formValid:true,
-        tabid:1,
+        selectData:[
+            {text:'Công ty cổ phần MISA', value: 1},
+            {text:'Công ty vô cùng kì diệu', value: 2},
+            {text:'Công ti kinh doanh đa cấp', value: 3},
+        ]
     }
 },
 mounted(){
