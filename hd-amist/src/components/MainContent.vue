@@ -309,6 +309,7 @@ export default {
     }).catch(err=>{
       swal("Load dữ liệu thất bại");
       console.log(err);
+      this.$emit('hideloading');
     });
     },
 

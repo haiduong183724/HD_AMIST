@@ -1,5 +1,5 @@
 .<template>
-  <div class="form-wraper" :class="{'show':isShow}">
+  <div class="form-wraper">
       <div class="form-content">
             <div class="form-header">
                 <div class="left-header item-center">
@@ -249,17 +249,20 @@ data(){
 mounted(){
     let me = this;
     EventBus.$on("open_form", param =>{
-        me.isShow = true;
         me.formMode = param.formMode;
         if(param.Employee != undefined){
             this.employee = param.Employee;
         }
+        me.showform();
     });
 },
 updated(){
-    this.autofocus();
 },
 methods:{
+    showform(){
+        this.$el.classList.add('show');
+        this.autofocus();
+    },
      autofocus(){
         if(this.$refs.focusfirst != undefined){
              this.$refs.focusfirst.focus();
@@ -267,7 +270,7 @@ methods:{
     },
     closeForm(){
         this.employee = this.nullEmployee;
-        this.isShow = false;
+        this.$el.classList.remove('show');
     },
     formatDate (date) {
       if (!date) return null
@@ -328,7 +331,7 @@ methods:{
         axios.post("https://localhost:44300/api/v1/Employees", this.employee).then(response=>{
             if(response.data.isValid == true){
                 EventBus.$emit("resetData", true);
-                this.isShow = false;
+                this.closeForm();
                 swal("thêm dữ liệu thành công!");
             }
     }).catch(err =>{console.log(err)
@@ -341,7 +344,7 @@ methods:{
             console.log(response);
         if(response.data.isValid == true){
             EventBus.$emit("resetData", true);
-            this.isShow = false;
+            this.closeForm();
             swal(response.data.errorMsg[0]);
         }
     }).catch(err =>{console.log(err)});
