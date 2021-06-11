@@ -1,5 +1,7 @@
 <template>
-  <div class="content">
+  <div class="content" @keyup.down.exact='nextSelect()' @keyup.up.exact = " preSelect()" @keyup.enter.exact = "edit(rowSelected)" @keyup.left=" prePage()" @keyup.right="nextPage()"
+    @keyup.ctrl.81="shortcut(add())"
+  >
       <div class="action" v-bind:style="{left:xClick, top:yClick}">
         <p v-on:click ="Delete()" >Xóa</p>
         <p v-on:click ="Clone()">Nhân bản</p>
@@ -44,7 +46,7 @@
             </a>
             <div class="right-table-header item-center">
               <div class="filter-input item-center">
-                <input type="text" placeholder="Tìm kiếm theo mã, tên nhân viên" v-model="findKeyWord" v-on:input = "findEmployee()"> 
+                <input type="text" placeholder="Tìm kiếm theo mã, tên nhân viên" v-model="findKeyWord" v-on:input = "findEmployee()" ref="findEmploy"> 
                 <i class="material-icons">
                   search
                 </i>
@@ -87,7 +89,6 @@
             </th>
             <th class="table-outline right"></th>
             </tr>
-            
           </thead>
           <tbody style="display:contents">
             <tr v-for="(item, index) in employees.slice((pageNum-1)*numRecordOnPage, pageNum*numRecordOnPage)" :key="item.employeeId" :id = "index"  v-on:click="InitrowSelected(index)">
@@ -225,6 +226,7 @@ export default {
         if(response.data.isValid == true){
           newEmployeeCode = response.data.data[0];
           newEmployee.employeeCode = newEmployeeCode;
+          newEmployee.gender = 0;
         }
       }).catch(err=>{
         swal("Load dữ liệu thất bại");
@@ -306,6 +308,7 @@ export default {
       this.employees = response.data.data[0].slice().reverse();
       this.cacheEmployees = this.employees;
       this.$emit('hideloading');
+      this.$refs.findEmploy.focus();
     }).catch(err=>{
       swal("Load dữ liệu thất bại");
       console.log(err);
@@ -327,6 +330,30 @@ export default {
       });
       me.employees = me.employeesFindList;
       this.createPageList();
+    },
+    nextSelect(){
+      if(this.rowSelected < this.numRecordOnPage-1)
+        this.rowSelected++;
+    },
+    preSelect(){
+      if(this.rowSelected>0){
+        this.rowSelected--;
+      }
+    },
+    nextPage(){
+      if(this.pageNum < this.pageList.length){
+        this.pageNum++;
+      }
+    },
+    prePage(){
+      if(this.pageNum>1){
+        this.pageNum--;
+      }
+    },
+    shortcut(funcCallBack){
+      funcCallBack();
+      let e = window.event;
+      e.preventDefault();
     }
   },
   // Khi khởi tạo: load dữ liệu lên bảng
@@ -334,16 +361,22 @@ export default {
     await this.reLoadData();
     this.createPageList();
     // Gửi thông điệp mở form
-    EventBus.$on('resetData', param =>{
-      if(param){
-        this.reLoadData();
-      }
-    })
+    
   },
   updated(){
     if(this.findKeyWord == ""){
       this.employees = this.cacheEmployees;
     }
+  },
+  mounted(){
+    EventBus.$on('resetData', param =>{
+      if(param){
+        this.reLoadData();
+      }
+    });
+    EventBus.$on('focus',()=>{
+      this.$refs.findEmploy.focus();
+    });
   }
 }
 </script>

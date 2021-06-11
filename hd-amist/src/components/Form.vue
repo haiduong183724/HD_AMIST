@@ -1,5 +1,5 @@
 .<template>
-  <div class="form-wraper">
+  <div class="form-wraper" @keyup.tab.exact='tabIndex()' @keyup.shift.tab.exact="shiftTab()" @keyup.esc.exact='closeForm()'>
       <div class="form-content">
             <div class="form-header">
                 <div class="left-header item-center">
@@ -12,6 +12,7 @@
                         <input type="checkbox" >
                         Là khách hàng
                     </label>
+                    <button ref="cacheFirst" ></button>
                 </div>
                 <div class="right-header">
                     <div class="pop-up-close">
@@ -24,6 +25,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="content-wraper">
                 <div class="head-content">
                     <div class="head-content-left">
@@ -33,7 +35,7 @@
                                     Mã <p> *</p>
                                 </div>
                                 <input type="text" v-model="employee.employeeCode" 
-                                FieldName = "Mã nhân viên" class="required" id = "employeeCode" ref="focusfirst">
+                                FieldName = "Mã nhân viên" class="required" id = "employeeCode" ref="firstElement">
                             </div>
                             <div class="nor_length">
                                 <div class="title-input">
@@ -70,7 +72,7 @@
                                 </div>
                                 <div class="date_input">
                                     <input type="text"  v-model="computedDateFormatted" 
-                                    readonly FieldName = "Ngày sinh" id = "dateOfBirth">
+                                     FieldName = "Ngày sinh" id = "dateOfBirth" class="date-input-field">
                                     <i class="material-icons" v-on:click ="function(){isDateOfBirth = !isDateOfBirth }">
                                         calendar_today
                                     </i>
@@ -81,7 +83,7 @@
                                     <v-date-picker
                                         v-model="employee.dateOfBirth"
                                         no-title
-                                        locale="vn"
+                                        locale="vi-VN"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -116,7 +118,7 @@
                                     Ngày cấp
                                 </div>
                                 <div class="date_input" >
-                                    <input type="text" v-model="employee.dateOfIdentify" readonly FieldName = "Ngày cấp">
+                                    <input type="text" v-model="employee.dateOfIdentify" FieldName = "Ngày cấp" class="date-input-field">
                                     <i class="material-icons" v-on:click ="function(){isDate = !isDate }">
                                         calendar_today
                                     </i>
@@ -127,7 +129,7 @@
                                         v-model="employee.dateOfIdentify"
                                         no-title
                                         scrollable
-                                        locale="vn"
+                                        locale="vi-VN"
                                     >
                                     <div class="date_picker_footer">
                                         <a href="#"> Hôm nay</a>
@@ -207,9 +209,10 @@
                         <button class="btn btn-white" v-on:click="Submit()">
                             <div class="btn-text">Cất</div>
                         </button>
-                        <button class="btn btn-green">
+                        <button class="btn btn-green" ref="lastElement">
                             <div class="btn-text">Cất và thêm</div>
                         </button>
+                        <button ref="cacheLast" ></button>
                     </div>
                 </div>
             </div>
@@ -244,6 +247,7 @@ data(){
         isDateOfBirth:false,
         formMode:"",
         formValid:true,
+        tabid:1,
     }
 },
 mounted(){
@@ -257,6 +261,7 @@ mounted(){
     });
 },
 updated(){
+
 },
 methods:{
     showform(){
@@ -264,13 +269,15 @@ methods:{
         this.autofocus();
     },
      autofocus(){
-        if(this.$refs.focusfirst != undefined){
-             this.$refs.focusfirst.focus();
+        if(this.$refs.firstElement != undefined){
+             this.$refs.firstElement.focus();
         }
     },
     closeForm(){
         this.employee = this.nullEmployee;
         this.$el.classList.remove('show');
+        console.log("a");
+        EventBus.$emit('focus');
     },
     formatDate (date) {
       if (!date) return null
@@ -288,7 +295,6 @@ methods:{
         requiredElement =  document.getElementsByClassName("required");
         for (let index = 0; index < requiredElement.length; index++) {
             if(requiredElement[index].value == ""){
-                console.log( requiredElement[index]);
                 let FieldName = requiredElement[index].getAttribute("FieldName");
                 requiredElement[index].title = `${FieldName} không được để trống`;
                 requiredElement[index].classList.add("invalidField");
@@ -339,9 +345,8 @@ methods:{
     });
     },
     Edit(){
-        console.log(this.employee);
         axios.put("https://localhost:44300/api/v1/Employees", this.employee).then(response=>{
-            console.log(response);
+
         if(response.data.isValid == true){
             EventBus.$emit("resetData", true);
             this.closeForm();
@@ -349,12 +354,49 @@ methods:{
         }
     }).catch(err =>{console.log(err)});
     },
+    tabIndex(){
+        if(document.activeElement == this.$refs.cacheLast){
+            this.$refs.firstElement.focus();
+        }
+        if(document.activeElement == document.getElementsByClassName("date-input-field")[0]){
+            document.activeElement.parentElement.classList.add('active-field');
+        }
+        else{
+            document.getElementsByClassName("date-input-field")[0].parentElement.classList.remove('active-field');
+        }
+        if(document.activeElement == document.getElementsByClassName("date-input-field")[1]){
+            document.activeElement.parentElement.classList.add('active-field');
+        }
+        else{
+            document.getElementsByClassName("date-input-field")[1].parentElement.classList.remove('active-field');
+        }
+    },
+    shiftTab(){
+        if(document.activeElement == this.$refs.cacheFirst){
+            this.$refs.lastElement.focus();
+        }
+        if(document.activeElement == document.getElementsByClassName("date-input-field")[0]){
+            document.activeElement.parentElement.classList.add('active-field');
+        }
+        else{
+            document.getElementsByClassName("date-input-field")[0].parentElement.classList.remove('active-field');
+        }
+        if(document.activeElement == document.getElementsByClassName("date-input-field")[1]){
+            document.activeElement.parentElement.classList.add('active-field');
+        }
+        else{
+            document.getElementsByClassName("date-input-field")[1].parentElement.classList.remove('active-field');
+        }
+    }
 },
 computed: {
     computedDateFormatted () {
       return this.formatDate(this.employee.dateOfBirth)
     },
   },
+  watched(){
+    
+  }
 }
 </script>
 

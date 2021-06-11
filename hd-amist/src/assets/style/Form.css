@@ -82,9 +82,10 @@
     display: flex;
     align-items: center;
     border: 1px solid  #babec5;
-    margin-top: 10px;
+    margin: 10px 0 5px 0px;
     height: 32px;
     padding: 5px;
+    border-radius: 2px;
 }
 .date_input input{
     border: none !important;
@@ -210,4 +211,7 @@
 }
 .input-row span,.gentle{
     margin-right: 16px;
+}
+.active-field{
+    border: 2px solid;
 }
